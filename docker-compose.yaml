@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${BOOKSTORE_DB_PASSWORD}
+      MYSQL_DATABASE: ${BOOKSTORE_DB_DATABASE}
+      MYSQL_USER: ${BOOKSTORE_DB_USERNAME}
+      MYSQL_PASSWORD: ${BOOKSTORE_DB_PASSWORD}
+      TZ: Asia/Taipei
+    ports:
+      - "${BOOKSTORE_DB_PORT}:${BOOKSTORE_DB_PORT}"
+  redis:
+    image: redis:latest
+    restart: always
+    environment:
+      TZ: Asia/Taipei
+    ports:
+      - "${BOOKSTORE_REDIS_PORT}:${BOOKSTORE_REDIS_PORT}"

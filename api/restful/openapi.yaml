@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: alan890104@gmail.com
+    name: API Support
+  description: API to maintain a bookstore
+  title: Book API
+  version: 1.0.0
+servers:
+- url: http://localhost:8000/api/v1
+  description: Local server
+paths:
+  /books:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Book'
+                type: array
+          description: A list of books
+      summary: Get a list of books
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        "201":
+          description: Book created successfully
+        "400":
+          description: Invalid input
+      summary: Add a new book
+  /books/{bookId}:
+    get:
+      parameters:
+      - description: ID of the book to retrieve
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: Book details
+        "404":
+          description: Book not found
+      summary: Get a book by its ID
+components:
+  schemas:
+    Book:
+      example:
+        author: author
+        id: id
+        publishedDate: 2000-01-23
+        title: title
+      properties:
+        id:
+          description: Unique identifier for the book
+          type: string
+        title:
+          description: Title of the book
+          type: string
+        author:
+          description: Author of the book
+          type: string
+        publishedDate:
+          description: Publication date of the book
+          format: date
+          type: string
+      required:
+      - author
+      - id
+      - title

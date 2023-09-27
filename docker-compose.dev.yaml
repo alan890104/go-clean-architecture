@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: bookstore-db-dev
+    restart: always
+
+  redis:
+    container_name: bookstore-redis-dev
+    restart: always
+
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: bookstore-swagger-prod
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api/restful/openapi.yaml:/api.yaml
+    environment:
+      - SWAGGER_JSON=/api.yaml
