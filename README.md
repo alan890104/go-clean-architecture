@@ -37,7 +37,7 @@ Here is the steps to start the development:
 1. Clone the repo
 2. Make sure you have installed `make`, `go` and `docker-compose / docker compose` on your machine
 3. Copy `.env.example` to `.env.dev` and modify the environment variables if needed
-4. Run `make init` to install the dependencies
+4. Run `make install` to install the dependencies
    > Run only once when you start the development or the dependencies are updated
 5. Run `make dev-up` to start the development database and redis
 6. Run `make dev-migrate` to migrate the database

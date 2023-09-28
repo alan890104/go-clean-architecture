@@ -11,8 +11,8 @@ help:  ## Show help message.
 		{printf "$(BLUE)  %-18s$(NC) %s\n", $$1, $$2}'
 
 
-init: ## Install the dependencies
-	./script/run.sh init
+install: ## Install the dependencies
+	./script/run.sh install
 
 
 serve: ## Serve the application with hot reload in dev mode

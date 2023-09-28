@@ -29,7 +29,7 @@ mode=$1
 
 
 case "$mode" in
-    init)
+    install)
         go install github.com/cosmtrek/air@latest
         exit 0
         ;;
@@ -39,7 +39,7 @@ case "$mode" in
         ;;
 
     *)
-        echo "Error: Invalid mode. Choose from (init | dev | prod | test)"
+        echo "Error: Invalid mode. Choose from (install | dev | prod | test)"
         exit 1
         ;;
 esac
