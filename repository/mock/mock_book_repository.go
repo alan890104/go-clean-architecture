@@ -37,3 +37,12 @@ func (r *mockBookRepository) Store(ctx context.Context, book *domain.Book) error
 	r.books[book.ID] = book
 	return nil
 }
+
+func (r *mockBookRepository) UpdateIsBorrowed(ctx context.Context, id string, isBorrowed bool) error {
+	book, ok := r.books[id]
+	if !ok {
+		return errors.New("mock: book not found")
+	}
+	book.IsBorrowed = isBorrowed
+	return nil
+}

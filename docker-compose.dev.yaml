@@ -16,6 +16,6 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./api/restful/openapi.yaml:/api.yaml
+      - ./api/restful/openapi.yaml:/api.yaml:ro
     environment:
       - SWAGGER_JSON=/api.yaml

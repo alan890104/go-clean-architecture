@@ -10,4 +10,6 @@ func RegisterBookRoutes(engine *gin.Engine, bookController *controller.BookContr
 	r.GET("", bookController.GetBook)
 	r.GET("/:id", bookController.GetBookByID)
 	r.POST("", bookController.CreateBook)
+	r.PUT("/borrow/:id", bookController.BorrowBook)
+	r.PUT("/return/:id", bookController.ReturnBook)
 }
