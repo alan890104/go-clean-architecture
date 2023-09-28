@@ -31,7 +31,7 @@ func (ctrl *BookController) GetBook(c *gin.Context) {
 }
 
 func (ctrl *BookController) GetBookByID(c *gin.Context) {
-	book, err := ctrl.bookUsecase.GetById(c, c.Param("id"))
+	book, err := ctrl.bookUsecase.GetById(c, c.Param("bookID"))
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
@@ -61,7 +61,7 @@ func (ctrl *BookController) CreateBook(c *gin.Context) {
 }
 
 func (ctrl *BookController) BorrowBook(c *gin.Context) {
-	bookID := c.Param("id")
+	bookID := c.Param("bookID")
 	if bookID == "" {
 		c.AbortWithStatusJSON(http.StatusBadRequest, domain.Response{
 			Msg: "book id is required",
@@ -80,7 +80,7 @@ func (ctrl *BookController) BorrowBook(c *gin.Context) {
 }
 
 func (ctrl *BookController) ReturnBook(c *gin.Context) {
-	bookID := c.Param("id")
+	bookID := c.Param("bookID")
 	if bookID == "" {
 		c.AbortWithStatusJSON(http.StatusBadRequest, domain.Response{
 			Msg: "book id is required",
