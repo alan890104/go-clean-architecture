@@ -10,6 +10,7 @@ type Env struct {
 	DB     DBEnv    `envPrefix:"DB_"`
 	Redis  RedisEnv `envPrefix:"REDIS_"`
 	Server Server   `envPrefix:"SERVER_"`
+	JWT    JWTEnv   `envPrefix:"JWT_"`
 }
 
 func NewEnv() *Env {

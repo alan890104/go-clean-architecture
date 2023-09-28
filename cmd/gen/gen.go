@@ -16,6 +16,6 @@ func main() {
 	})
 	gormdb := bootstrap.NewMySQLDB(app.Env)
 	g.UseDB(gormdb)
-	g.ApplyBasic(domain.Book{})
+	g.ApplyBasic(domain.Book{}, domain.User{})
 	g.Execute()
 }

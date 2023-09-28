@@ -13,14 +13,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type application struct {
+type Application struct {
 	Env    *Env
 	Conn   *gorm.DB
 	Engine *gin.Engine
 }
 
 // Run run the application with graceful shutdown
-func (app *application) Run() {
+func (app *Application) Run() {
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", app.Env.Server.Port),
 		Handler: app.Engine,
@@ -36,7 +36,7 @@ func (app *application) Run() {
 	log.Println("Gracefully shutting down...")
 }
 
-func App() *application {
+func App() *Application {
 	env := NewEnv()
 	db := NewMySQLDB(env)
 	engine := gin.Default()
@@ -48,7 +48,7 @@ func App() *application {
 	}
 	time.Local = tz
 
-	return &application{
+	return &Application{
 		Env:    env,
 		Conn:   db,
 		Engine: engine,

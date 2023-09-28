@@ -13,6 +13,10 @@ func main() {
 	bookRepo := repository.NewMysqlBookRepository(app.Conn)
 	bookUsecase := usecase.NewBookUsecase(bookRepo)
 
-	routes.RegisterRoutes(app.Engine, bookUsecase)
+	userRepo := repository.NewUserRepository(app.Conn)
+	loginUsecase := usecase.NewLoginUsecase(userRepo)
+	sigupUsecase := usecase.NewSignupUsecase(userRepo)
+
+	routes.RegisterRoutes(app, bookUsecase, loginUsecase, sigupUsecase)
 	app.Run()
 }

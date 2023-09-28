@@ -3,16 +3,24 @@ package routes
 import (
 	"github.com/alan890104/go-clean-arch-demo/api/restful/controller"
 	"github.com/alan890104/go-clean-arch-demo/api/restful/middleware"
+	"github.com/alan890104/go-clean-arch-demo/bootstrap"
 	"github.com/alan890104/go-clean-arch-demo/domain"
-	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(engine *gin.Engine, bookUsecase domain.BookUsecase) {
+func RegisterRoutes(app *bootstrap.Application, bookUsecase domain.BookUsecase, loginUsecase domain.LoginUsecase, signupUsecase domain.SignUpUsecase) {
 	// Register Global Middleware
 	cors := middleware.CORSMiddleware()
-	engine.Use(cors)
+	app.Engine.Use(cors)
 
 	// Register Book Routes
 	bookController := controller.NewBookController(bookUsecase)
-	registerBookRoutes(engine, bookController)
+	RegisterBookRoutes(app.Engine, bookController)
+
+	// Register Login Routes
+	loginController := controller.NewLoginController(loginUsecase, app.Env)
+	RegisterLoginRoutes(app.Engine, loginController)
+
+	// Register Signup Routes
+	signupController := controller.NewSignupController(signupUsecase)
+	RegisterSignupRoutes(app.Engine, signupController)
 }
