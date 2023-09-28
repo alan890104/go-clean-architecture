@@ -36,7 +36,7 @@ fi
 # Switch case to handle the different command options
 case "$action" in
     init)
-        #... [No changes here, keep the init code as is]
+        go install github.com/cosmtrek/air@latest
         ;;
         
     start|stop|teardown)
