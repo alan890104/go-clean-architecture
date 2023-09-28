@@ -4,29 +4,31 @@ import (
 	"context"
 
 	"github.com/alan890104/go-clean-arch-demo/domain"
+	tokensvc "github.com/alan890104/go-clean-arch-demo/internal/token"
 )
 
-type loginUseCase struct {
+type loginUsecase struct {
 	userRepository domain.UserRepository
 }
 
 func NewLoginUsecase(userRepo domain.UserRepository) domain.LoginUsecase {
-	return &loginUseCase{
+	return &loginUsecase{
 		userRepository: userRepo,
 	}
 }
 
-// CreateAccessToken implements domain.LoginUsecase.
-func (*loginUseCase) CreateAccessToken(ctx context.Context, secret string, expiry int64) (accessToken string, err error) {
-	panic("unimplemented")
+func (us *loginUsecase) GetUserByEmail(ctx context.Context, email string) (*domain.User, error) {
+	user, err := us.userRepository.GetByEmail(ctx, email)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
-// CreateRefreshToken implements domain.LoginUsecase.
-func (*loginUseCase) CreateRefreshToken(ctx context.Context, secret string, expiry int64) (refreshToken string, err error) {
-	panic("unimplemented")
+func (*loginUsecase) CreateAccessToken(ctx context.Context, user *domain.User, secret string, expiry int64) (accessToken string, err error) {
+	return tokensvc.CreateAccessToken(user, secret, expiry)
 }
 
-// GetUserByEmail implements domain.LoginUsecase.
-func (*loginUseCase) GetUserByEmail(ctx context.Context, email string) (*domain.User, error) {
-	panic("unimplemented")
+func (*loginUsecase) CreateRefreshToken(ctx context.Context, user *domain.User, secret string, expiry int64) (refreshToken string, err error) {
+	return tokensvc.CreateRefreshToken(user, secret, expiry)
 }

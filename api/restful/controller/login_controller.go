@@ -46,7 +46,7 @@ func (ctrl *LoginController) Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := ctrl.loginUsecase.CreateAccessToken(c, ctrl.env.JWT.AccessTokenSecret, ctrl.env.JWT.AccessTokenExpiry)
+	accessToken, err := ctrl.loginUsecase.CreateAccessToken(c, user, ctrl.env.JWT.AccessTokenSecret, ctrl.env.JWT.AccessTokenExpiry)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
@@ -54,7 +54,7 @@ func (ctrl *LoginController) Login(c *gin.Context) {
 		return
 	}
 
-	refreshToken, err := ctrl.loginUsecase.CreateRefreshToken(c, ctrl.env.JWT.RefreshTokenSecret, ctrl.env.JWT.RefreshTokenExpiry)
+	refreshToken, err := ctrl.loginUsecase.CreateRefreshToken(c, user, ctrl.env.JWT.RefreshTokenSecret, ctrl.env.JWT.RefreshTokenExpiry)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
