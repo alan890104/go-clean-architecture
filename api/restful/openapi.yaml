@@ -55,6 +55,56 @@ paths:
         "404":
           description: Book not found
       summary: Get a book by its ID
+  /login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          description: Login successful
+        "400":
+          description: Invalid credentials
+      summary: Login to get tokens
+  /signup:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        "201":
+          description: Signup successful
+        "400":
+          description: Invalid input
+      summary: Signup for a new account
+  /books/borrow/{bookId}:
+    put:
+      parameters:
+      - $ref: '#/components/parameters/BookId'
+      responses:
+        "200":
+          description: Book borrowed successfully
+        "404":
+          description: Book not found
+      summary: Borrow a book
+  /books/return/{bookId}:
+    put:
+      parameters:
+      - $ref: '#/components/parameters/BookId'
+      responses:
+        "200":
+          description: Book returned successfully
+        "404":
+          description: Book not found
+      summary: Return a borrowed book
 components:
   schemas:
     Book:
@@ -81,3 +131,52 @@ components:
       - author
       - id
       - title
+    LoginRequest:
+      properties:
+        email:
+          description: Email address for login
+          type: string
+          format: email
+        password:
+          description: Password for login
+          type: string
+      required:
+      - email
+      - password
+    LoginResponse:
+      properties:
+        access_token:
+          description: Access token for authentication
+          type: string
+        refresh_token:
+          description: Refresh token for renewing the access token
+          type: string
+      required:
+      - access_token
+      - refresh_token
+    SignupRequest:
+      properties:
+        name:
+          description: Full name of the user
+          type: string
+        email:
+          description: Email address for signup
+          type: string
+          format: email
+        password:
+          description: Password for the new account
+          type: string
+      required:
+      - name
+      - email
+      - password
+  parameters:
+    BookId:
+      description: ID of the book
+      explode: false
+      in: path
+      name: bookId
+      required: true
+      schema:
+        type: string
+      style: simple
