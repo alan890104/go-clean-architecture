@@ -12,7 +12,7 @@ type bookRepository struct {
 	query *query.Query
 }
 
-func NewMysqlBookRepository(conn *gorm.DB) domain.BookRepository {
+func NewBookRepository(conn *gorm.DB) domain.BookRepository {
 	return &bookRepository{
 		query: query.Use(conn),
 	}

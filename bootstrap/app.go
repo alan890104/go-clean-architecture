@@ -13,10 +13,44 @@ import (
 	"gorm.io/gorm"
 )
 
+type AppOpts func(app *Application)
+
 type Application struct {
-	Env    *Env
-	Conn   *gorm.DB
-	Engine *gin.Engine
+	Env     *Env
+	Conn    *gorm.DB
+	Engine  *gin.Engine
+	UseMock bool
+}
+
+func WithUseMock(useMock bool) AppOpts {
+	return func(app *Application) {
+		app.UseMock = useMock
+	}
+}
+
+func App(opts ...AppOpts) *Application {
+	env := NewEnv()
+	db := NewMySQLDB(env)
+	engine := gin.Default()
+
+	// Set timezone
+	tz, err := time.LoadLocation("Asia/Taipei")
+	if err != nil {
+		log.Fatal(err)
+	}
+	time.Local = tz
+
+	app := &Application{
+		Env:    env,
+		Conn:   db,
+		Engine: engine,
+	}
+
+	for _, opt := range opts {
+		opt(app)
+	}
+
+	return app
 }
 
 // Run run the application with graceful shutdown
@@ -34,23 +68,4 @@ func (app *Application) Run() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	<-ch
 	log.Println("Gracefully shutting down...")
-}
-
-func App() *Application {
-	env := NewEnv()
-	db := NewMySQLDB(env)
-	engine := gin.Default()
-
-	// Set timezone
-	tz, err := time.LoadLocation("Asia/Taipei")
-	if err != nil {
-		log.Fatal(err)
-	}
-	time.Local = tz
-
-	return &Application{
-		Env:    env,
-		Conn:   db,
-		Engine: engine,
-	}
 }
