@@ -26,19 +26,28 @@ function export_env() {
 }
 
 mode=$1
-action=$2
 
-if [[ ! "$mode" =~ ^(dev|prod|test)$ ]]; then
-    echo "Error: Invalid mode. Choose from (dev | prod | test)"
-    exit 1
-fi
+
+case "$mode" in
+    init)
+        go install github.com/cosmtrek/air@latest
+        exit 0
+        ;;
+        
+    dev|prod|test)
+        # All actions for these modes are handled in the next switch case block
+        ;;
+
+    *)
+        echo "Error: Invalid mode. Choose from (init | dev | prod | test)"
+        exit 1
+        ;;
+esac
+
+action=$2
 
 # Switch case to handle the different command options
 case "$action" in
-    init)
-        go install github.com/cosmtrek/air@latest
-        ;;
-        
     start|stop|teardown)
         export_env $mode
         if [ "$action" = "start" ]; then
