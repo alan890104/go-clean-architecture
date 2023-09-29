@@ -3,9 +3,11 @@ version: "3.7"
 services:
   db:
     container_name: library-db-prod
+    restart: always
 
   redis:
     container_name: library-redis-prod
+    restart: always
 
   app:
     container_name: library-app-prod
@@ -15,6 +17,10 @@ services:
     restart: always
     ports:
       - ${LIBRARY_SERVER_PORT}:${LIBRARY_SERVER_PORT}
+    environment:
+      # Override the environment variables in .env.prod
+      - LIBRARY_DB_HOST=db
+      - LIBRARY_REDIS_HOST=redis
     env_file:
       - .env.prod
     depends_on:

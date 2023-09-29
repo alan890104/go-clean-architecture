@@ -1,5 +1,5 @@
 # Build Stage
-FROM golang:1.20-alpine AS build
+FROM golang:1.20 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -14,7 +14,7 @@ ENV CGO_ENABLED=1
 RUN go build -o /app/app ./cmd/app/app.go
 
 # Runtime Stage
-FROM scratch AS runtime
+FROM busybox AS runtime
 
 # Copy the binary from the build stage to the runtime stage
 COPY --from=build /app/app /app

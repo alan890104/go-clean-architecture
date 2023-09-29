@@ -51,9 +51,9 @@ case "$action" in
     start|stop|teardown)
         export_env $mode
         if [ "$action" = "start" ]; then
-            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml up -d 
+            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml up -d ${@:3}
         elif [ "$action" = "stop" ]; then
-            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml down
+            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml down 
         elif [ "$action" = "teardown" ]; then
             $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml down --remove-orphans -v
         else
