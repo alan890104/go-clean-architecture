@@ -15,7 +15,7 @@ install: ## Install the dependencies
 	./script/run.sh install
 
 
-serve: ## Serve the application with hot reload in dev mode
+serve: dev-generate ## Serve the application with hot reload in dev mode
 	./script/run.sh dev serve
 
 

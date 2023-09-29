@@ -12,6 +12,10 @@ bin/
 # Generated
 domain/query
 
+# logs
+logs/
+*.log
+
 # Vscode
 .vscode
 
