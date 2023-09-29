@@ -25,9 +25,11 @@ func CreateRefreshToken(user *domain.User, secret string, expiry int64) (refresh
 
 func CreateAccessToken(user *domain.User, secret string, expiry int64) (accessToken string, err error) {
 	claimAccess := &domain.JWTAccessCustomClaims{
-		UserID: user.ID,
-		Name:   user.Name,
-		Email:  user.Email,
+		Identity: domain.Identity{
+			UserID: user.ID,
+			Name:   user.Name,
+			Email:  user.Email,
+		},
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(expiry) * time.Second)),
 		},
@@ -40,15 +42,19 @@ func CreateAccessToken(user *domain.User, secret string, expiry int64) (accessTo
 	return tkn, nil
 }
 
-func IsAuthorized(tokenString string, secret string) (bool, error) {
-	_, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+func ExtractIdentityFromToken(tokenString string, secret string) (user *domain.Identity, err error) {
+	tkn, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok { // check signing method
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(secret), nil
 	})
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return true, nil
+	claims, ok := tkn.Claims.(*domain.JWTAccessCustomClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims")
+	}
+	return &claims.Identity, nil
 }

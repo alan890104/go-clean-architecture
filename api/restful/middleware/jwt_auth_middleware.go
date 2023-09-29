@@ -20,18 +20,14 @@ func AuthMiddleware(secret string) gin.HandlerFunc {
 			return
 		}
 		authToken := bearerToken[1]
-		isAuthorized, err := tokensvc.IsAuthorized(authToken, secret)
+		identity, err := tokensvc.ExtractIdentityFromToken(authToken, secret)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, domain.Response{
 				Msg: err.Error(),
 			})
 			return
 		}
-		if !isAuthorized {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, domain.Response{
-				Msg: "Invalid token",
-			})
-		}
+		c.Set("identity", identity)
 		c.Next()
 	}
 }
