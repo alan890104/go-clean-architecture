@@ -17,7 +17,7 @@ func NewEnv() *Env {
 	var e Env
 	if err := env.ParseWithOptions(&e, env.Options{
 		RequiredIfNoDef: true,
-		Prefix:          "BOOKSTORE_",
+		Prefix:          "LIBRARY_",
 	}); err != nil {
 		log.Fatal(err)
 	}

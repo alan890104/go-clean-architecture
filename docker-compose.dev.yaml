@@ -2,16 +2,16 @@ version: "3.7"
 
 services:
   db:
-    container_name: bookstore-db-dev
+    container_name: library-db-dev
     restart: always
 
   redis:
-    container_name: bookstore-redis-dev
+    container_name: library-redis-dev
     restart: always
 
   swagger:
     image: swaggerapi/swagger-ui
-    container_name: bookstore-swagger-prod
+    container_name: library-swagger-prod
     restart: always
     ports:
       - 8080:8080

@@ -3,7 +3,7 @@ info:
   contact:
     email: alan890104@gmail.com
     name: API Support
-  description: API to maintain a bookstore
+  description: API to maintain a library
   title: Book API
   version: 1.0.0
 servers:

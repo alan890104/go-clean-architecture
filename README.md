@@ -1,8 +1,8 @@
-# Go Clean Architecture (Bookstore)
+# Go Clean Architecture (Library)
 
 ## Description
 
-This repo aims to implement the Clean Architecture in Go by an bookstore example. This project is inspired by the [go-clean-arch](https://github.com/bxcodec/go-clean-arch) and [go-backend-clean-architecture](https://amitshekhar.me/blog/go-backend-clean-architecture). The implementation includes the following features:
+This repo aims to implement the Clean Architecture in Go by an library example. This project is inspired by the [go-clean-arch](https://github.com/bxcodec/go-clean-arch) and [go-backend-clean-architecture](https://amitshekhar.me/blog/go-backend-clean-architecture). The implementation includes the following features:
 
 1. **Domain Driven Design** (DDD)
 2. **Dependency Injection** (DI)

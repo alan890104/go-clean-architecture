@@ -2,19 +2,19 @@ version: "3.7"
 
 services:
   db:
-    container_name: bookstore-db-prod
+    container_name: library-db-prod
 
   redis:
-    container_name: bookstore-redis-prod
+    container_name: library-redis-prod
 
   app:
-    container_name: bookstore-app-prod
+    container_name: library-app-prod
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
     ports:
-      - ${BOOKSTORE_SERVER_PORT}:${BOOKSTORE_SERVER_PORT}
+      - ${LIBRARY_SERVER_PORT}:${LIBRARY_SERVER_PORT}
     env_file:
       - .env.prod
     depends_on:
@@ -23,7 +23,7 @@ services:
 
   swagger:
     image: swaggerapi/swagger-ui
-    container_name: bookstore-swagger-prod
+    container_name: library-swagger-prod
     restart: always
     ports:
       - 8080:8080
