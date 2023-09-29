@@ -43,7 +43,7 @@ Here is the steps to start the development:
 6. Run `make dev-migrate` to migrate the database
 7. Run `make dev-generate` to generate the gorm/gen queries
 8. Run `make serve` to start the development server with live reload
-   1. Webserver will be listening on [localhost:8080](http://localhost:8080)
+   1. Webserver will be listening on [localhost:8000](http://localhost:8000), you may change the port in `.env.dev`
    2. Swagger UI will be listening on [localhost:8080](http://localhost:8080)
 9. Run `make dev-down` to stop the development database and redis
 
