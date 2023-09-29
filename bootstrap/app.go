@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	_ "time/tzdata"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -34,7 +35,7 @@ func App(opts ...AppOpts) *Application {
 	engine := gin.Default()
 
 	// Set timezone
-	tz, err := time.LoadLocation("Asia/Taipei")
+	tz, err := time.LoadLocation(env.Server.TimeZone)
 	if err != nil {
 		log.Fatal(err)
 	}
