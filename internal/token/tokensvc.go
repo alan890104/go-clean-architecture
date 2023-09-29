@@ -42,7 +42,7 @@ func CreateAccessToken(user *domain.User, secret string, expiry int64) (accessTo
 	return tkn, nil
 }
 
-func ExtractIdentityFromToken(tokenString string, secret string) (user *domain.Identity, err error) {
+func ExtractIdentityFromToken(tokenString string, secret string) (identity *domain.Identity, err error) {
 	tkn, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok { // check signing method
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
