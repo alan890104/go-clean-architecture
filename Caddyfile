@@ -5,15 +5,11 @@
 {$LIBRARY_DOMAIN} {
 	encode gzip
 
-	handle * {
-		file_server
-	}
-
 	handle /api/* {
 		reverse_proxy app:8000
 	}
 
-	handle /docs/* {
+	handle_path  /docs/* {
 		reverse_proxy swagger:8080
 	}
 }
