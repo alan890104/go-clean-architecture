@@ -38,5 +38,5 @@ dev-down: ## Down the container for development
 dev-teardown: ## Down the container and release all resources
 	./script/run.sh dev teardown
 
-prod-up: ## Start the container for production
-	./script/run.sh prod start --build
+stage-up: ## Start the container for stage environment
+	./script/run.sh stage start --build

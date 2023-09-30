@@ -4,10 +4,14 @@ services:
   db:
     container_name: library-db-dev
     restart: always
+    ports:
+      - "${LIBRARY_DB_PORT}:${LIBRARY_DB_PORT}"
 
   redis:
     container_name: library-redis-dev
     restart: always
+    ports:
+      - "${LIBRARY_REDIS_PORT}:${LIBRARY_REDIS_PORT}"
 
   swagger:
     image: swaggerapi/swagger-ui
@@ -16,6 +20,6 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./api/restful/openapi.yaml:/api.yaml:ro
+      - $PWD/api/restful/openapi.yaml:/api.yaml:ro
     environment:
       - SWAGGER_JSON=/api.yaml

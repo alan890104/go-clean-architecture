@@ -4,10 +4,12 @@
 # Binary
 bin/
 
+# Docker volumes
+docker/volumes/
+
 # Environment
-.env
-.env.prod
-.env.dev
+.env*
+!.env.example
 
 # Generated
 domain/query

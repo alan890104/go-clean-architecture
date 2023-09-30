@@ -1,3 +1,18 @@
 *.md
-.env.*
 *.out
+
+# config
+.env*
+*.yml
+*.yaml
+
+# makefile
+Makefile
+
+# github
+.gitignore
+.github/
+
+# docker
+.dockerignore
+docker/

@@ -1,10 +1,12 @@
 #!/bin/bash
 
+PROJECT_NAME="go-clean-arch"
+
 # Checking if docker-compose or docker compose command exists
 if command -v docker-compose &> /dev/null; then
-    DOCKER_COMP="docker-compose"
+    DOCKER_COMP="docker-compose -p ${PROJECT_NAME}"
 else
-    DOCKER_COMP="docker compose"
+    DOCKER_COMP="docker compose -p ${PROJECT_NAME}"
 fi
 
 # Function to export environment variables based on the OS
@@ -34,12 +36,12 @@ case "$mode" in
         exit 0
         ;;
         
-    dev|prod|test)
+    dev|stage|test)
         # All actions for these modes are handled in the next switch case block
         ;;
 
     *)
-        echo "Error: Invalid mode. Choose from (install | dev | prod | test)"
+        echo "Error: Invalid mode. Choose from (install | dev | stage | test)"
         exit 1
         ;;
 esac
@@ -51,11 +53,11 @@ case "$action" in
     start|stop|teardown)
         export_env $mode
         if [ "$action" = "start" ]; then
-            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml up -d ${@:3}
+            $DOCKER_COMP -f docker/docker-compose.yaml -f docker/docker-compose.${mode}.yaml up -d ${@:3}
         elif [ "$action" = "stop" ]; then
-            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml down 
+            $DOCKER_COMP -f docker/docker-compose.yaml -f docker/docker-compose.${mode}.yaml down 
         elif [ "$action" = "teardown" ]; then
-            $DOCKER_COMP -f docker-compose.yaml -f docker-compose.${mode}.yaml down --remove-orphans -v
+            $DOCKER_COMP -f docker/docker-compose.yaml -f docker/docker-compose.${mode}.yaml down --remove-orphans -v
         else
             echo "Error: Invalid command. Choose from (start | stop | teardown)"
             exit 1
@@ -79,7 +81,7 @@ case "$action" in
         ;;
 
     *)
-        echo "Usage: ./run.sh [dev|prod|test] [init|start|stop|teardown|generate|migrate|run|serve]"
+        echo "Usage: ./run.sh [dev|stage|test] [init|start|stop|teardown|generate|migrate|run|serve]"
         exit 1
         ;;
 esac

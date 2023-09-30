@@ -10,12 +10,13 @@ services:
       MYSQL_USER: ${LIBRARY_DB_USERNAME}
       MYSQL_PASSWORD: ${LIBRARY_DB_PASSWORD}
       TZ: ${LIBRARY_SERVER_TIMEZONE}
-    ports:
-      - "${LIBRARY_DB_PORT}:${LIBRARY_DB_PORT}"
+    expose:
+      - ${LIBRARY_DB_PORT}
+
   redis:
     image: redis:latest
     restart: always
     environment:
       TZ: ${LIBRARY_SERVER_TIMEZONE}
-    ports:
-      - "${LIBRARY_REDIS_PORT}:${LIBRARY_REDIS_PORT}"
+    expose:
+      - ${LIBRARY_REDIS_PORT}
