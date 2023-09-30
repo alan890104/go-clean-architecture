@@ -1,5 +1,6 @@
 {
 	debug
+	auto_https ignore_loaded_certs
 }
 
 {$LIBRARY_DOMAIN} {
@@ -9,7 +10,7 @@
 		reverse_proxy app:8000
 	}
 
-	handle_path  /docs/* {
+	handle_path /docs/* {
 		reverse_proxy swagger:8080
 	}
 }

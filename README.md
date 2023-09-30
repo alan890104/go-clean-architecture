@@ -31,6 +31,7 @@ We suggest you to follow the steps below to develop with `Unix-like OS`, the who
 1. [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
 2. [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 3. [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+4. [Caddyfile Support](https://marketplace.visualstudio.com/items?itemName=matthewpi.caddyfile-support)
 
 Here is the steps to start the development:
 
