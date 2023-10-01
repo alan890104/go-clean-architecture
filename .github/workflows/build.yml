@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: "{context}/docker/Dockerfile"
+          file: "./docker/Dockerfile"
           push: true
           provenance: false
           sbom: false
