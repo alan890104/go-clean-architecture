@@ -59,8 +59,6 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    environment:
-      - TZ=${LIBRARY_SERVER_TIMEZONE}
     env_file:
       - $PWD/.env.stage
     volumes:
