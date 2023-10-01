@@ -15,9 +15,11 @@ install: ## Install the dependencies
 	./script/run.sh install
 
 
-serve: dev-generate ## Serve the application with hot reload in dev mode
+serve: generate ## Serve the application with hot reload in dev mode
 	./script/run.sh dev serve
 
+generate: ## Generate the gorm queries
+	./script/run.sh generate
 
 dev-up: ## Start the container for development
 	./script/run.sh dev start
@@ -25,10 +27,6 @@ dev-up: ## Start the container for development
 
 dev-migrate: ## Run the migrations
 	./script/run.sh dev migrate
-
-
-dev-generate: ## Generate the gorm queries
-	./script/run.sh dev generate
 
 
 dev-down: ## Down the container for development

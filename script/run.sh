@@ -35,6 +35,11 @@ case "$mode" in
         go install github.com/cosmtrek/air@latest
         exit 0
         ;;
+
+    generate)
+        go run ./cmd/gen/gen.go
+        exit 0
+        ;;
         
     dev|stage|test)
         # All actions for these modes are handled in the next switch case block
@@ -66,11 +71,9 @@ case "$action" in
         fi
         ;;
 
-    generate|migrate|run|serve)
+    migrate|run|serve)
         export_env $mode
-        if [ "$action" = "generate" ]; then
-            go run ./cmd/gen/gen.go
-        elif [ "$action" = "migrate" ]; then
+        if [ "$action" = "migrate" ]; then
             go run ./cmd/migrate/migrate.go
         elif [ "$action" = "run" ]; then
             go run ./cmd/app/app.go
@@ -83,7 +86,7 @@ case "$action" in
         ;;
 
     *)
-        echo "Usage: ./run.sh [dev|stage|test] [init|start|stop|teardown|generate|migrate|run|serve]"
+        echo "Usage: ./run.sh [install | generate | dev | stage | test] [start | stop | teardown | migrate | run | serve]"
         exit 1
         ;;
 esac

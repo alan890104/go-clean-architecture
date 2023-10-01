@@ -7,6 +7,12 @@ WORKDIR /app
 # Copy all files to the working directory
 COPY . .
 
+# Download all dependencies
+RUN go mod download
+
+# Generate the query files
+RUN go run cmd/gen/gen.go
+
 # Set CGO_ENABLED to 1
 ENV CGO_ENABLED=1
 
