@@ -1,6 +1,5 @@
 {
 	debug
-	auto_https ignore_loaded_certs
 }
 
 {$LIBRARY_DOMAIN} {

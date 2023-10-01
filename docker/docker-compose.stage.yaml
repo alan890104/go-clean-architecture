@@ -4,10 +4,20 @@ services:
   db:
     container_name: library-db-stage
     restart: always
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   redis:
     container_name: library-redis-stage
     restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
 
   app:
     container_name: library-app-stage
@@ -24,8 +34,10 @@ services:
     env_file:
       - $PWD/.env.stage
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   swagger:
     image: swaggerapi/swagger-ui
@@ -52,3 +64,5 @@ services:
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
       - $PWD/docker/volumes/caddy/caddy_data:/data:rw
       - $PWD/docker/volumes/caddy/caddy_config:/config:rw
+    depends_on:
+      - app
