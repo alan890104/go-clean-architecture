@@ -38,7 +38,7 @@ We suggest you to follow the steps below to develop with `Unix-like OS`, the who
 ### Third party tools (super recommended)
 
 - [DBeaver](https://dbeaver.io/download/) is recommended as the database management tool.
-- [RedisInsight](https://redis.io/download/) is recommended as the redis management tool.
+- [RedisInsight](https://redis.com/redis-enterprise/redis-insight/#insight-form) is recommended as the redis management tool.
 
 ### Setup
 
