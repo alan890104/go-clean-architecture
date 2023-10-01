@@ -26,7 +26,7 @@ List third party packages with readme tables in this project
 
 We suggest you to follow the steps below to develop with `Unix-like OS`, the whole project is developed and tested on `Ubuntu 22.04`.
 
-### VSCode Plugins (super recommended)
+### VSCode Plugins (Super Recommended)
 
 `Visual Studio Code` is recommended as the IDE for this project, you can install the following extensions to make your development easier:
 
@@ -35,7 +35,9 @@ We suggest you to follow the steps below to develop with `Unix-like OS`, the who
 3. [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
 4. [Caddyfile Support](https://marketplace.visualstudio.com/items?itemName=matthewpi.caddyfile-support)
 
-### Third party tools (super recommended)
+### Third party tools (Optional)
+
+The following tools are started by `docker` in the development environment, but you can install them on your machine if you want to:
 
 - [DBeaver](https://dbeaver.io/download/) is recommended as the database management tool.
 - [RedisInsight](https://redis.com/redis-enterprise/redis-insight/#insight-form) is recommended as the redis management tool.
@@ -65,6 +67,8 @@ Here is the steps to start the development:
 8. Run `make serve` to start the development server with live reload
    1. Webserver will be listening on [localhost:8000](http://localhost:8000), you may change the port in `.env.dev`
    2. Swagger UI will be listening on [localhost:8080](http://localhost:8080)
+   3. RedisInsight will be listening on [localhost:8001](http://localhost:8001)
+   4. DBeaver will be listening on [localhost:8978](http://localhost:8978)
 9. Run `make dev-down` to stop the development database and redis
 
 ## Iteration

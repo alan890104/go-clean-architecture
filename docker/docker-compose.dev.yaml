@@ -15,11 +15,26 @@ services:
 
   swagger:
     image: swaggerapi/swagger-ui
-    container_name: library-swagger-prod
-    restart: always
+    container_name: library-swagger-dev
+    restart: on-failure
     ports:
       - 8080:8080
     volumes:
       - $PWD/api/restful/openapi.yaml:/api.yaml:ro
     environment:
       - SWAGGER_JSON=/api.yaml
+
+  dbeaver:
+    image: dbeaver/cloudbeaver:23.2.1
+    container_name: library-dbeaver-dev
+    restart: on-failure
+    network_mode: host
+    volumes:
+      - $PWD/docker/volumes/dbeaver:/opt/cloudbeaver/workspace
+
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    container_name: library-redis-insight-dev
+    restart: on-failure
+    ports:
+      - 8001:8001
