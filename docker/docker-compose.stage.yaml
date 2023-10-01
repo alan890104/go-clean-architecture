@@ -31,7 +31,6 @@ services:
       # Override the environment variables in .env.stage
       - LIBRARY_DB_HOST=db
       - LIBRARY_REDIS_HOST=redis
-      - TZ=${LIBRARY_SERVER_TIMEZONE}
     env_file:
       - $PWD/.env.stage
     depends_on:
@@ -59,6 +58,8 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    environment:
+      - TZ=${LIBRARY_SERVER_TIMEZONE}
     env_file:
       - $PWD/.env.stage
     volumes:
