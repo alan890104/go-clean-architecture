@@ -58,6 +58,8 @@ case "$action" in
             $DOCKER_COMP -f docker/docker-compose.yaml -f docker/docker-compose.${mode}.yaml down 
         elif [ "$action" = "teardown" ]; then
             $DOCKER_COMP -f docker/docker-compose.yaml -f docker/docker-compose.${mode}.yaml down --remove-orphans -v
+            echo "*** WARNING ***"
+            echo "Please run 'sudo rm -rf docker/volumes' by yourself to remove the persistant volumes"
         else
             echo "Error: Invalid command. Choose from (start | stop | teardown)"
             exit 1
