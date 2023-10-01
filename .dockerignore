@@ -16,3 +16,6 @@ Makefile
 # docker
 .dockerignore
 docker/
+
+# generated
+domain/query/
