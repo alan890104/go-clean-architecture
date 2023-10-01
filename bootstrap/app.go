@@ -31,7 +31,7 @@ func WithUseMock(useMock bool) AppOpts {
 
 func App(opts ...AppOpts) *Application {
 	env := NewEnv()
-	db := NewMySQLDB(env)
+	db := NewDB(env)
 	engine := gin.Default()
 
 	// Set timezone

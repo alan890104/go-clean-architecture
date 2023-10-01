@@ -9,7 +9,7 @@ import (
 
 func main() {
 	env := bootstrap.NewEnv()
-	db := bootstrap.NewMySQLDB(env)
+	db := bootstrap.NewDB(env)
 
 	if err := db.AutoMigrate(&domain.Book{}, &domain.User{}); err != nil {
 		log.Fatal(err)

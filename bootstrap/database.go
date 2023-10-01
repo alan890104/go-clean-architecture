@@ -11,6 +11,7 @@ import (
 )
 
 type DBEnv struct {
+	Kind     string `env:"KIND"`
 	Host     string `env:"HOST"`
 	Port     uint   `env:"PORT"`
 	Username string `env:"USERNAME"`
@@ -34,8 +35,8 @@ func (env *DBEnv) Dialect(kind string) gorm.Dialector {
 	}
 }
 
-func NewMySQLDB(env *Env) *gorm.DB {
-	db, err := gorm.Open(env.DB.Dialect("mysql"), &gorm.Config{})
+func NewDB(env *Env) *gorm.DB {
+	db, err := gorm.Open(env.DB.Dialect(env.DB.Kind), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
