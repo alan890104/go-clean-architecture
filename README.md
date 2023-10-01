@@ -22,9 +22,11 @@ List third party packages with readme tables in this project
 | [go-redis](https://github.com/redis/go-redis) | Redis client for golang                                             |
 | [air](https://github.com/cosmtrek/air)        | Live reload for Go apps written in Go                               |
 
-## Development steps:
+## Development steps
 
 We suggest you to follow the steps below to develop with `Unix-like OS`, the whole project is developed and tested on `Ubuntu 22.04`.
+
+### VSCode Plugins (super recommended)
 
 `Visual Studio Code` is recommended as the IDE for this project, you can install the following extensions to make your development easier:
 
@@ -33,13 +35,30 @@ We suggest you to follow the steps below to develop with `Unix-like OS`, the who
 3. [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
 4. [Caddyfile Support](https://marketplace.visualstudio.com/items?itemName=matthewpi.caddyfile-support)
 
+### Third party tools (super recommended)
+
+- [DBeaver](https://dbeaver.io/download/) is recommended as the database management tool.
+- [RedisInsight](https://redis.io/download/) is recommended as the redis management tool.
+
+### Setup
+
 Here is the steps to start the development:
 
 1. Clone the repo
+
+   ```bash
+   git clone https://github.com/alan890104/go-clean-architecture.git
+   ```
+
 2. Make sure you have installed `make`, `go` and `docker-compose / docker compose` on your machine
 3. Copy `.env.example` to `.env.dev` and modify the environment variables if needed
-4. Run `make install` to install the dependencies
-   > Run only once when you start the development or the dependencies are updated
+
+   ```bash
+   cp .env.example .env.dev
+   ```
+
+4. Run `make install` to install the tools
+   > Run only once when you start the development or the tools required to be updated
 5. Run `make dev-up` to start the development database and redis
 6. Run `make dev-migrate` to migrate the database
 7. Run `make dev-generate` to generate the gorm/gen queries
