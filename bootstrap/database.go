@@ -27,7 +27,7 @@ func (env *DBEnv) Dialect(kind string) gorm.Dialector {
 	case "postgres":
 		dsn := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s TimeZone=Asia/Taipei", env.Host, env.Port, env.Username, env.Database, env.Password)
 		return postgres.Open(dsn)
-	case "mssql":
+	case "mssql", "sqlserver":
 		dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", env.Username, env.Password, env.Host, env.Port, env.Database)
 		return sqlserver.Open(dsn)
 	default:
