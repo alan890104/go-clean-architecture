@@ -31,6 +31,7 @@ services:
       # Override the environment variables in .env.stage
       - LIBRARY_DB_HOST=db
       - LIBRARY_REDIS_HOST=redis
+      - GIN_MODE=release
     env_file:
       - $PWD/.env.stage
     depends_on:
