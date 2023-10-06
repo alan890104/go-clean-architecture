@@ -8,12 +8,14 @@ import (
 )
 
 type BookController struct {
-	bookUsecase domain.BookUsecase
+	bookUsecase   domain.BookUsecase
+	recordUsecase domain.RecordUsecase
 }
 
-func NewBookController(bookUseCase domain.BookUsecase) *BookController {
+func NewBookController(bookUseCase domain.BookUsecase, recordUsecase domain.RecordUsecase) *BookController {
 	return &BookController{
-		bookUsecase: bookUseCase,
+		bookUsecase:   bookUseCase,
+		recordUsecase: recordUsecase,
 	}
 }
 
@@ -61,14 +63,23 @@ func (ctrl *BookController) CreateBook(c *gin.Context) {
 }
 
 func (ctrl *BookController) BorrowBook(c *gin.Context) {
-	bookID := c.Param("bookID")
-	if bookID == "" {
+	var borrowBookRequest domain.BorrowBookRequest
+	if err := c.ShouldBindJSON(&borrowBookRequest); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, domain.Response{
-			Msg: "book id is required",
+			Msg: err.Error(),
 		})
 		return
 	}
-	if err := ctrl.bookUsecase.Borrow(c, bookID); err != nil {
+	if err := ctrl.bookUsecase.Borrow(c, &borrowBookRequest); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	if err := ctrl.recordUsecase.Store(c, &domain.StoreRecordRequest{
+		UserId: borrowBookRequest.UserId,
+		BookId: borrowBookRequest.BookId,
+	}); err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
 		})
@@ -80,14 +91,20 @@ func (ctrl *BookController) BorrowBook(c *gin.Context) {
 }
 
 func (ctrl *BookController) ReturnBook(c *gin.Context) {
-	bookID := c.Param("bookID")
-	if bookID == "" {
+	var returnBookRequest domain.ReturnBookRequest
+	if err := c.ShouldBindJSON(&returnBookRequest); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, domain.Response{
-			Msg: "book id is required",
+			Msg: err.Error(),
 		})
 		return
 	}
-	if err := ctrl.bookUsecase.Return(c, bookID); err != nil {
+	if err := ctrl.bookUsecase.Return(c, &returnBookRequest); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	if err := ctrl.recordUsecase.UpdateEndDateByBookId(c, returnBookRequest.BookId); err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
 		})
@@ -95,5 +112,35 @@ func (ctrl *BookController) ReturnBook(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, domain.Response{
 		Msg: "return success",
+	})
+}
+
+func (ctrl *BookController) UpdateBookByID(c *gin.Context) {
+	var book domain.UpdateBookRequest
+	if err := c.ShouldBindJSON(&book); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	updatedBook, err := ctrl.bookUsecase.UpdateById(c, c.Param("bookID"), &book)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, updatedBook)
+}
+
+func (ctrl *BookController) DeleteBookByID(c *gin.Context) {
+	if err := ctrl.bookUsecase.DeleteById(c, c.Param("bookID")); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, domain.Response{
+		Msg: "delete success",
 	})
 }
