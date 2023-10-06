@@ -7,8 +7,10 @@ info:
   title: Book API
   version: 1.0.0
 servers:
-- url: http://localhost:8000/api/v1
-  description: Local server
+  - url: http://localhost:8000/api/v1
+    description: Local server
+security:
+  - bearerAuth: []
 paths:
   /books:
     get:
@@ -18,7 +20,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/Book'
+                  $ref: "#/components/schemas/Book"
                 type: array
           description: A list of books
       summary: Get a list of books
@@ -27,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: "#/components/schemas/Book"
       responses:
         "201":
           description: Book created successfully
@@ -37,37 +39,78 @@ paths:
   /books/{bookId}:
     get:
       parameters:
-      - description: ID of the book to retrieve
-        explode: false
-        in: path
-        name: bookId
-        required: true
-        schema:
-          type: string
-        style: simple
+        - description: ID of the book to retrieve
+          explode: false
+          in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                $ref: "#/components/schemas/Book"
           description: Book details
         "404":
           description: Book not found
       summary: Get a book by its ID
+    put:
+      parameters:
+        - description: ID of the book to retrieve
+          explode: false
+          in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: Book details after modification
+        "400":
+          description: Invalid Input
+      summary: Modify a book info by its ID
+    delete:
+      parameters:
+        - description: ID of the book to delete
+          explode: false
+          in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: Book deleted successfully
+        "404":
+          description: Book not found
+      summary: Delete a book by its ID
   /login:
     post:
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: "#/components/schemas/LoginRequest"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
+                $ref: "#/components/schemas/LoginResponse"
           description: Login successful
         "400":
           description: Invalid credentials
@@ -78,33 +121,65 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SignupRequest'
+              $ref: "#/components/schemas/SignupRequest"
       responses:
         "201":
           description: Signup successful
         "400":
           description: Invalid input
       summary: Signup for a new account
-  /books/borrow/{bookId}:
-    put:
-      parameters:
-      - $ref: '#/components/parameters/BookId'
+  /books/borrow:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BorrowRequest"
       responses:
         "200":
           description: Book borrowed successfully
         "404":
           description: Book not found
       summary: Borrow a book
-  /books/return/{bookId}:
-    put:
-      parameters:
-      - $ref: '#/components/parameters/BookId'
+  /books/return:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReturnRequest"
       responses:
         "200":
           description: Book returned successfully
         "404":
           description: Book not found
       summary: Return a borrowed book
+  /records:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Record"
+                type: array
+          description: A list of records
+      summary: Get a list of records
+  /records/{userId}:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Record"
+                type: array
+          description: A list of records
+      summary: Get a list of records by user ID
 components:
   schemas:
     Book:
@@ -128,9 +203,61 @@ components:
           format: date
           type: string
       required:
-      - author
-      - id
-      - title
+        - author
+        - id
+        - title
+    Record:
+      example:
+        id: id
+        user_id: user_id
+        book_id: book_id
+        start_date: 2000-01-23
+        end_date: 2000-01-23
+      properties:
+        id:
+          description: Unique identifier for the record
+          type: string
+        user_id:
+          description: ID of the user
+          type: string
+        book_id:
+          description: ID of the book
+          type: string
+        start_date:
+          description: Borrowed date of the book
+          format: date
+          type: string
+        end_date:
+          description: Returned date of the book
+          format: date
+          type: string
+      required:
+        - user_id
+        - book_id
+        - start_date
+        - end_date
+    BorrowRequest:
+      properties:
+        user_id:
+          description: ID of the user
+          type: string
+        book_id:
+          description: ID of the book
+          type: string
+      required:
+        - user_id
+        - book_id
+    ReturnRequest:
+      properties:
+        user_id:
+          description: ID of the user
+          type: string
+        book_id:
+          description: ID of the book
+          type: string
+      required:
+        - user_id
+        - book_id
     LoginRequest:
       properties:
         email:
@@ -141,8 +268,8 @@ components:
           description: Password for login
           type: string
       required:
-      - email
-      - password
+        - email
+        - password
     LoginResponse:
       properties:
         access_token:
@@ -152,8 +279,8 @@ components:
           description: Refresh token for renewing the access token
           type: string
       required:
-      - access_token
-      - refresh_token
+        - access_token
+        - refresh_token
     SignupRequest:
       properties:
         name:
@@ -167,9 +294,9 @@ components:
           description: Password for the new account
           type: string
       required:
-      - name
-      - email
-      - password
+        - name
+        - email
+        - password
   parameters:
     BookId:
       description: ID of the book
@@ -180,3 +307,17 @@ components:
       schema:
         type: string
       style: simple
+    UserId:
+      description: ID of the User
+      explode: false
+      in: path
+      name: userId
+      required: true
+      schema:
+        type: string
+      style: simple
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
