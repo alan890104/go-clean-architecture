@@ -7,14 +7,18 @@ import (
 	"github.com/alan890104/go-clean-arch-demo/domain"
 )
 
-func RegisterRoutes(app *bootstrap.Application, bookUsecase domain.BookUsecase, loginUsecase domain.LoginUsecase, signupUsecase domain.SignUpUsecase) {
+func RegisterRoutes(app *bootstrap.Application, bookUsecase domain.BookUsecase, recordUsecase domain.RecordUsecase, loginUsecase domain.LoginUsecase, signupUsecase domain.SignUpUsecase) {
 	// Register Global Middleware
 	cors := middleware.CORSMiddleware()
 	app.Engine.Use(cors)
 
 	// Register Book Routes
-	bookController := controller.NewBookController(bookUsecase)
+	bookController := controller.NewBookController(bookUsecase, recordUsecase)
 	RegisterBookRoutes(app.Engine, bookController)
+
+	// Register Record Routes
+	recordController := controller.NewRecordController(recordUsecase)
+	RegisterRecordRoutes(app.Engine, recordController)
 
 	// Register Login Routes
 	loginController := controller.NewLoginController(loginUsecase, app.Env)

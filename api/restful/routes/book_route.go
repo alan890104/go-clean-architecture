@@ -9,7 +9,9 @@ func RegisterBookRoutes(engine *gin.Engine, bookController *controller.BookContr
 	r := engine.Group("/api/v1/books")
 	r.GET("", bookController.GetBook)
 	r.GET("/:bookID", bookController.GetBookByID)
+	r.PUT("/:bookID", bookController.UpdateBookByID)
+	r.DELETE("/:bookID", bookController.DeleteBookByID)
 	r.POST("", bookController.CreateBook)
-	r.PUT("/borrow/:bookID", bookController.BorrowBook)
-	r.PUT("/return/:bookID", bookController.ReturnBook)
+	r.POST("/borrow/:bookID", bookController.BorrowBook)
+	r.POST("/return/:bookID", bookController.ReturnBook)
 }
