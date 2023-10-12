@@ -41,3 +41,18 @@ func (r *bookRepository) UpdateIsBorrowed(ctx context.Context, id string, isBorr
 	}
 	return nil
 }
+
+func (r *bookRepository) UpdateBorrowerId(ctx context.Context, id string, userId string) error {
+	// TODO
+	return nil
+}
+
+func (r *bookRepository) UpdateById(ctx context.Context, id string, book *domain.UpdateBookRequest) (*domain.Book, error) {
+	// TODO
+	return nil, nil
+}
+
+func (r *bookRepository) DeleteById(ctx context.Context, id string) error {
+	// TODO
+	return nil
+}
