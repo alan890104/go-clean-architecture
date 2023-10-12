@@ -11,6 +11,13 @@ servers:
     description: Local server
 security:
   - bearerAuth: []
+tags:
+  - name: books
+    description: Access to books
+  - name: records
+    description: Access to records
+  - name: authentication
+    description: For user authentication
 paths:
   /books:
     get:
@@ -24,6 +31,8 @@ paths:
                 type: array
           description: A list of books
       summary: Get a list of books
+      tags:
+        - books
     post:
       requestBody:
         content:
@@ -36,6 +45,8 @@ paths:
         "400":
           description: Invalid input
       summary: Add a new book
+      tags:
+        - books
   /books/{bookId}:
     get:
       parameters:
@@ -57,6 +68,8 @@ paths:
         "404":
           description: Book not found
       summary: Get a book by its ID
+      tags:
+        - books
     put:
       parameters:
         - description: ID of the book to retrieve
@@ -82,6 +95,8 @@ paths:
         "400":
           description: Invalid Input
       summary: Modify a book info by its ID
+      tags:
+        - books
     delete:
       parameters:
         - description: ID of the book to delete
@@ -98,6 +113,8 @@ paths:
         "404":
           description: Book not found
       summary: Delete a book by its ID
+      tags:
+        - books
   /login:
     post:
       requestBody:
@@ -115,6 +132,8 @@ paths:
         "400":
           description: Invalid credentials
       summary: Login to get tokens
+      tags:
+        - authentication
   /signup:
     post:
       requestBody:
@@ -128,6 +147,8 @@ paths:
         "400":
           description: Invalid input
       summary: Signup for a new account
+      tags:
+        - authentication
   /books/borrow:
     post:
       requestBody:
@@ -141,6 +162,8 @@ paths:
         "404":
           description: Book not found
       summary: Borrow a book
+      tags:
+        - books
   /books/return:
     post:
       requestBody:
@@ -154,6 +177,8 @@ paths:
         "404":
           description: Book not found
       summary: Return a borrowed book
+      tags:
+        - books
   /records:
     get:
       responses:
@@ -166,6 +191,8 @@ paths:
                 type: array
           description: A list of records
       summary: Get a list of records
+      tags:
+        - records
   /records/{userId}:
     get:
       parameters:
@@ -180,6 +207,8 @@ paths:
                 type: array
           description: A list of records
       summary: Get a list of records by user ID
+      tags:
+        - records
 components:
   schemas:
     Book:
