@@ -84,7 +84,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Book"
+              $ref: "#/components/schemas/UpdateBookRequest"
       responses:
         "200":
           content:
@@ -134,6 +134,8 @@ paths:
       summary: Login to get tokens
       tags:
         - authentication
+      servers:
+        - url: http://localhost:8000
   /signup:
     post:
       requestBody:
@@ -149,6 +151,8 @@ paths:
       summary: Signup for a new account
       tags:
         - authentication
+      servers:
+        - url: http://localhost:8000
   /books/borrow:
     post:
       requestBody:
@@ -235,6 +239,22 @@ components:
         - author
         - id
         - title
+    UpdateBookRequest:
+      example:
+        author: author
+        publishedDate: 2000-01-23
+        title: title
+      properties:
+        title:
+          description: Title of the book
+          type: string
+        author:
+          description: Author of the book
+          type: string
+        publishedDate:
+          description: Publication date of the book
+          format: date
+          type: string
     Record:
       example:
         id: id
