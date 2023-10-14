@@ -41,36 +41,32 @@ func (us *bookUsecase) Store(ctx context.Context, book *domain.StoreBookRequest)
 	})
 }
 
-func (us *bookUsecase) Borrow(ctx context.Context, borrowBookRequest *domain.BorrowBookRequest) error {
-	// TODO
-	book, err := us.bookrepo.GetById(ctx, borrowBookRequest.BookId)
+func (us *bookUsecase) Borrow(ctx context.Context, id string) error {
+	book, err := us.bookrepo.GetById(ctx, id)
 	if err != nil {
 		return errors.New("book not found")
 	}
 	if book.IsBorrowed {
 		return errors.New("book is borrowed")
 	}
-	return us.bookrepo.UpdateIsBorrowed(ctx, borrowBookRequest.BookId, true)
+	return us.bookrepo.UpdateIsBorrowed(ctx, id, true)
 }
 
-func (us *bookUsecase) Return(ctx context.Context, returnBookRequest *domain.ReturnBookRequest) error {
-	// TODO
-	book, err := us.bookrepo.GetById(ctx, returnBookRequest.BookId)
+func (us *bookUsecase) Return(ctx context.Context, id string) error {
+	book, err := us.bookrepo.GetById(ctx, id)
 	if err != nil {
 		return errors.New("book not found")
 	}
 	if !book.IsBorrowed {
 		return errors.New("book is not borrowed")
 	}
-	return us.bookrepo.UpdateIsBorrowed(ctx, returnBookRequest.BookId, false)
+	return us.bookrepo.UpdateIsBorrowed(ctx, id, false)
 }
 
 func (us *bookUsecase) UpdateById(ctx context.Context, id string, book *domain.UpdateBookRequest) (*domain.Book, error) {
-	// TODO
-	return nil, nil
+	return us.bookrepo.UpdateById(ctx, id, book)
 }
 
 func (us *bookUsecase) DeleteById(ctx context.Context, id string) error {
-	// TODO
-	return nil
+	return us.bookrepo.DeleteById(ctx, id)
 }

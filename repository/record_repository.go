@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	"github.com/alan890104/go-clean-arch-demo/domain"
 	"github.com/alan890104/go-clean-arch-demo/domain/query"
@@ -18,31 +19,31 @@ func NewRecordRepository(conn *gorm.DB) domain.RecordRepository {
 	}
 }
 func (r *recordRepository) GetAll(ctx context.Context) ([]*domain.Record, error) {
-	// TODO
-	return []*domain.Record{}, nil
-}
-
-func (r *recordRepository) GetById(ctx context.Context, id string) (*domain.Record, error) {
-	// TODO
-	return nil, nil
+	return r.query.WithContext(ctx).Record.Find()
 }
 
 func (r *recordRepository) GetByUserId(ctx context.Context, userId string) ([]*domain.Record, error) {
-	// TODO
-	return []*domain.Record{}, nil
+	return r.query.WithContext(ctx).Record.Where(r.query.Record.UserId.Eq(userId)).Find()
 }
 
-func (r *recordRepository) GetLatestByBookId(ctx context.Context, recordId string) (*domain.Record, error) {
-	// TODO
-	return nil, nil
+func (r *recordRepository) GetLatestByBookId(ctx context.Context, bookId string) (*domain.Record, error) {
+	return r.query.WithContext(ctx).Record.
+		Where(r.query.Record.BookId.Eq(bookId)).
+		Order(r.query.Record.StartDate.Desc()).
+		First()
 }
 
-func (r *recordRepository) Store(ctx context.Context, Record *domain.Record) error {
-	// TODO
-	return nil
+func (r *recordRepository) Store(ctx context.Context, record *domain.Record) error {
+	return r.query.WithContext(ctx).Record.Create(record)
 }
 
-func (r *recordRepository) UpdateEndDateByBookId(ctx context.Context, recordId string) error {
-	// TODO
+func (r *recordRepository) UpdateEndDateById(ctx context.Context, id string, endDate string) error {
+	info, err := r.query.WithContext(ctx).Record.Where(r.query.Record.ID.Eq(id)).UpdateColumn(r.query.Record.EndDate, endDate)
+	if err != nil {
+		return err
+	}
+	if info.RowsAffected == 0 {
+		return errors.New("no rows affected")
+	}
 	return nil
 }
