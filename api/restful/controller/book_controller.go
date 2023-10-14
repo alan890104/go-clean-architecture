@@ -70,7 +70,7 @@ func (ctrl *BookController) BorrowBook(c *gin.Context) {
 		})
 		return
 	}
-	if err := ctrl.bookUsecase.Borrow(c, &borrowBookRequest); err != nil {
+	if err := ctrl.bookUsecase.Borrow(c, borrowBookRequest.BookId); err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
 		})
@@ -98,13 +98,20 @@ func (ctrl *BookController) ReturnBook(c *gin.Context) {
 		})
 		return
 	}
-	if err := ctrl.bookUsecase.Return(c, &returnBookRequest); err != nil {
+	record, err := ctrl.recordUsecase.GetLatestByBookId(c, returnBookRequest.BookId)
+	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
 		})
 		return
 	}
-	if err := ctrl.recordUsecase.UpdateEndDateByBookId(c, returnBookRequest.BookId); err != nil {
+	if err := ctrl.bookUsecase.Return(c, returnBookRequest.BookId); err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
+			Msg: err.Error(),
+		})
+		return
+	}
+	if err := ctrl.recordUsecase.UpdateEndDateById(c, record.ID); err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, domain.Response{
 			Msg: err.Error(),
 		})
