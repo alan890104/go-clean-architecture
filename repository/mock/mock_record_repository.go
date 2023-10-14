@@ -25,30 +25,37 @@ func (r *mockRecordRepository) GetAll(ctx context.Context) ([]*domain.Record, er
 	return records, nil
 }
 
-func (r *mockRecordRepository) GetById(ctx context.Context, id string) (*domain.Record, error) {
-	record, ok := r.records[id]
-	if !ok {
-		return nil, errors.New("mock: record not found")
-	}
-	return record, nil
-}
-
 func (r *mockRecordRepository) GetByUserId(ctx context.Context, userId string) ([]*domain.Record, error) {
-	// TODO
-	return []*domain.Record{}, nil
+	var records []*domain.Record
+	for _, record := range r.records {
+		if record.UserId == userId {
+			records = append(records, record)
+		}
+	}
+	return records, nil
 }
 
 func (r *mockRecordRepository) GetLatestByBookId(ctx context.Context, bookId string) (*domain.Record, error) {
-	// TODO
-	return nil, nil
+	var latest *domain.Record
+	latest.StartDate = ""
+	for _, record := range r.records {
+		if record.StartDate > latest.StartDate {
+			latest = record
+		}
+	}
+	return latest, nil
 }
 
-func (r *mockRecordRepository) Store(ctx context.Context, Record *domain.Record) error {
-	// TODO
+func (r *mockRecordRepository) Store(ctx context.Context, record *domain.Record) error {
+	r.records[record.ID] = record
 	return nil
 }
 
-func (r *mockRecordRepository) UpdateEndDateByBookId(ctx context.Context, bookId string) error {
-	// TODO
+func (r *mockRecordRepository) UpdateEndDateById(ctx context.Context, id string, endDate string) error {
+	record, ok := r.records[id]
+	if !ok {
+		return errors.New("mock: record not found")
+	}
+	record.EndDate = endDate
 	return nil
 }

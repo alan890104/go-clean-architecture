@@ -47,17 +47,21 @@ func (r *mockBookRepository) UpdateIsBorrowed(ctx context.Context, id string, is
 	return nil
 }
 
-func (r *mockBookRepository) UpdateBorrowerId(ctx context.Context, id string, userId string) error {
-	// TODO
-	return nil
-}
-
-func (r *mockBookRepository) UpdateById(ctx context.Context, id string, book *domain.UpdateBookRequest) (*domain.Book, error) {
-	// TODO
-	return nil, nil
+func (r *mockBookRepository) UpdateById(ctx context.Context, id string, updatedBook *domain.UpdateBookRequest) (*domain.Book, error) {
+	book, ok := r.books[id]
+	if !ok {
+		return nil, errors.New("mock: book not found")
+	}
+	book.Author = updatedBook.Author
+	book.Title = updatedBook.Title
+	book.PublishedDate = updatedBook.PublishedDate
+	return book, nil
 }
 
 func (r *mockBookRepository) DeleteById(ctx context.Context, id string) error {
-	// TODO
-	return nil
+	if _, ok := r.books[id]; ok {
+		delete(r.books, id)
+		return nil
+	}
+	return errors.New("mock: book not found")
 }
