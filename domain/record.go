@@ -27,18 +27,16 @@ type StoreRecordRequest struct {
 
 type RecordRepository interface {
 	GetAll(ctx context.Context) ([]*Record, error)
-	GetById(ctx context.Context, id string) (*Record, error)
 	GetByUserId(ctx context.Context, userId string) ([]*Record, error)
 	GetLatestByBookId(ctx context.Context, bookId string) (*Record, error)
-	Store(ctx context.Context, Record *Record) error
-	UpdateEndDateByBookId(ctx context.Context, bookId string) error
+	Store(ctx context.Context, record *Record) error
+	UpdateEndDateById(ctx context.Context, id string, endDate string) error
 }
 
 type RecordUsecase interface {
 	GetAll(ctx context.Context) ([]*Record, error)
-	GetById(ctx context.Context, id string) (*Record, error)
 	GetByUserId(ctx context.Context, userId string) ([]*Record, error)
 	GetLatestByBookId(ctx context.Context, bookId string) (*Record, error)
 	Store(ctx context.Context, Record *StoreRecordRequest) error
-	UpdateEndDateByBookId(ctx context.Context, bookId string) error
+	UpdateEndDateById(ctx context.Context, id string) error
 }
