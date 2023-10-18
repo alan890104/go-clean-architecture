@@ -30,11 +30,29 @@ type StoreBookRequest struct {
 	PublishedDate string `json:"published_date"`
 }
 
+type UpdateBookRequest struct {
+	Title         string `json:"title"`
+	Author        string `json:"author"`
+	PublishedDate string `json:"published_date"`
+}
+
+type BorrowBookRequest struct {
+	UserId string `json:"user_id"`
+	BookId string `json:"book_id"`
+}
+
+type ReturnBookRequest struct {
+	UserId string `json:"user_id"`
+	BookId string `json:"book_id"`
+}
+
 type BookRepository interface {
 	GetAll(ctx context.Context) ([]*Book, error)
 	GetById(ctx context.Context, id string) (*Book, error)
 	Store(ctx context.Context, book *Book) error
 	UpdateIsBorrowed(ctx context.Context, id string, isBorrowed bool) error
+	UpdateById(ctx context.Context, id string, book *UpdateBookRequest) (*Book, error)
+	DeleteById(ctx context.Context, id string) error
 }
 
 type BookUsecase interface {
@@ -43,4 +61,6 @@ type BookUsecase interface {
 	Store(ctx context.Context, book *StoreBookRequest) error
 	Borrow(ctx context.Context, id string) error
 	Return(ctx context.Context, id string) error
+	UpdateById(ctx context.Context, id string, book *UpdateBookRequest) (*Book, error)
+	DeleteById(ctx context.Context, id string) error
 }

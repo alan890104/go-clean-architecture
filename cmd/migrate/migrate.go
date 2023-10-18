@@ -11,7 +11,7 @@ func main() {
 	env := bootstrap.NewEnv()
 	db := bootstrap.NewDB(env)
 
-	if err := db.AutoMigrate(&domain.Book{}, &domain.User{}); err != nil {
+	if err := db.AutoMigrate(&domain.Book{}, &domain.User{}, &domain.Record{}); err != nil {
 		log.Fatal(err)
 	}
 }

@@ -62,3 +62,11 @@ func (us *bookUsecase) Return(ctx context.Context, id string) error {
 	}
 	return us.bookrepo.UpdateIsBorrowed(ctx, id, false)
 }
+
+func (us *bookUsecase) UpdateById(ctx context.Context, id string, book *domain.UpdateBookRequest) (*domain.Book, error) {
+	return us.bookrepo.UpdateById(ctx, id, book)
+}
+
+func (us *bookUsecase) DeleteById(ctx context.Context, id string) error {
+	return us.bookrepo.DeleteById(ctx, id)
+}

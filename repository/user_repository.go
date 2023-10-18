@@ -23,9 +23,9 @@ func (r *userRepository) Create(ctx context.Context, user *domain.User) error {
 }
 
 func (r *userRepository) GetByEmail(ctx context.Context, email string) (*domain.User, error) {
-	return r.query.WithContext(ctx).User.Where(query.User.Email.Eq(email)).Take()
+	return r.query.WithContext(ctx).User.Where(r.query.User.Email.Eq(email)).Take()
 }
 
 func (r *userRepository) GetByID(ctx context.Context, id string) (*domain.User, error) {
-	return r.query.WithContext(ctx).User.Where(query.User.ID.Eq(id)).Take()
+	return r.query.WithContext(ctx).User.Where(r.query.User.ID.Eq(id)).Take()
 }

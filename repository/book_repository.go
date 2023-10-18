@@ -24,7 +24,7 @@ func (r *bookRepository) GetAll(ctx context.Context) ([]*domain.Book, error) {
 }
 
 func (r *bookRepository) GetById(ctx context.Context, id string) (*domain.Book, error) {
-	return r.query.WithContext(ctx).Book.Where(query.Book.ID.Eq(id)).First()
+	return r.query.WithContext(ctx).Book.Where(r.query.Book.ID.Eq(id)).First()
 }
 
 func (r *bookRepository) Store(ctx context.Context, book *domain.Book) error {
@@ -32,7 +32,34 @@ func (r *bookRepository) Store(ctx context.Context, book *domain.Book) error {
 }
 
 func (r *bookRepository) UpdateIsBorrowed(ctx context.Context, id string, isBorrowed bool) error {
-	info, err := r.query.WithContext(ctx).Book.Where(query.Book.ID.Eq(id)).UpdateColumn(query.Book.IsBorrowed, isBorrowed)
+	info, err := r.query.WithContext(ctx).Book.Where(r.query.Book.ID.Eq(id)).UpdateColumn(r.query.Book.IsBorrowed, isBorrowed)
+	if err != nil {
+		return err
+	}
+	if info.RowsAffected == 0 {
+		return errors.New("no rows affected")
+	}
+	return nil
+}
+
+func (r *bookRepository) UpdateById(ctx context.Context, id string, book *domain.UpdateBookRequest) (*domain.Book, error) {
+	info, err := r.query.WithContext(ctx).Book.Where(r.query.Book.ID.Eq(id)).
+		Updates(map[string]interface{}{
+			"title":          book.Title,
+			"author":         book.Author,
+			"published_date": book.PublishedDate,
+		})
+	if err != nil {
+		return nil, err
+	}
+	if info.RowsAffected == 0 {
+		return nil, errors.New("no rows affected")
+	}
+	return nil, nil
+}
+
+func (r *bookRepository) DeleteById(ctx context.Context, id string) error {
+	info, err := r.query.WithContext(ctx).Book.Where(r.query.Book.ID.Eq(id)).Delete()
 	if err != nil {
 		return err
 	}

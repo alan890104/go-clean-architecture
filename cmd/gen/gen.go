@@ -12,6 +12,6 @@ func main() {
 		OutPath: path.Join("domain", "query"),
 		Mode:    gen.WithDefaultQuery | gen.WithQueryInterface,
 	})
-	g.ApplyBasic(domain.Book{}, domain.User{})
+	g.ApplyBasic(domain.Book{}, domain.User{}, domain.Record{})
 	g.Execute()
 }
