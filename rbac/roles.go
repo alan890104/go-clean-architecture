@@ -1,6 +1,6 @@
 package rbac
 
-var (
+const (
 	Visitor   = "Visitor"
 	Librarian = "Librarian"
 	Director  = "Director"
