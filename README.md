@@ -10,6 +10,14 @@ This repo aims to implement the Clean Architecture in Go by an library example. 
 4. **Database Migration** (DM)
 5. **API Documentation** (AD)
 
+### Scenarios
+
+- The system is a library with 3 roles: Director, Librarian, and Visitor.
+- Everyone can find all the books in the library.
+- registered visitors can borrow books, return books, and view their own borrowing records.
+- librarians can update the information of books and have all the privileges of registered visitors.
+- The director has full access to the librarians and can delete books. Deleting a book is a soft delete, so it does not affect the borrowing record.
+
 ## Packages
 
 List third party packages with readme tables in this project
