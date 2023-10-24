@@ -1,0 +1,14 @@
+p, Director, /books/:bookID, DELETE
+p, Director, /books, PUT
+p, Librarian, /books, PUT
+p, Librarian, /books/borrow, POST
+p, Librarian, /books/return, POST
+p, Librarian, /records, GET
+p, Visitor, /books/borrow, POST
+p, Visitor, /books/return, POST
+p, Visitor, /records/:userID, GET
+p, *, /books, GET
+p, *, /books/:bookID, GET
+
+g, Director, Librarian
+g, Librarian, Visitor

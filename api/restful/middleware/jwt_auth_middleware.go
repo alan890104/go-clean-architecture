@@ -12,7 +12,7 @@ import (
 func AuthMiddleware(secret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
-		bearerToken := strings.Split(authHeader, "")
+		bearerToken := strings.Split(authHeader, " ")
 		if len(bearerToken) != 2 {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, domain.Response{
 				Msg: "Invalid token format (length different from 2)",
