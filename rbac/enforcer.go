@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 
 	"github.com/casbin/casbin/v2"
-	_ "github.com/go-sql-driver/mysql"
 	project_root_directory "github.com/golang-infrastructure/go-project-root-directory"
 )
 
