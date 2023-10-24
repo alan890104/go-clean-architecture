@@ -4,11 +4,10 @@ import (
 	"github.com/alan890104/go-clean-arch-demo/api/restful/controller"
 	"github.com/alan890104/go-clean-arch-demo/api/restful/middleware"
 	"github.com/alan890104/go-clean-arch-demo/bootstrap"
-	"github.com/gin-gonic/gin"
 )
 
-func RegisterBookRoutes(engine *gin.Engine, bookController *controller.BookController, app *bootstrap.Application) {
-	r := engine.Group("/api/v1/books")
+func RegisterBookRoutes(app *bootstrap.Application, bookController *controller.BookController) {
+	r := app.Engine.Group("/api/v1/books")
 	r.Use(middleware.AuthMiddleware(app.Env.JWT.AccessTokenSecret))
 	r.Use(middleware.CasbinRBACMiddleware(app.Enforcer))
 	r.GET("", bookController.GetBook)

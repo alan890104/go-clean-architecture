@@ -2,9 +2,9 @@ package routes
 
 import (
 	"github.com/alan890104/go-clean-arch-demo/api/restful/controller"
-	"github.com/gin-gonic/gin"
+	"github.com/alan890104/go-clean-arch-demo/bootstrap"
 )
 
-func RegisterLoginRoutes(engine *gin.Engine, loginController *controller.LoginController) {
-	engine.POST("/login", loginController.Login)
+func RegisterLoginRoutes(app *bootstrap.Application, loginController *controller.LoginController) {
+	app.Engine.POST("/login", loginController.Login)
 }
