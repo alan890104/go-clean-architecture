@@ -5,12 +5,12 @@ import (
 	"path/filepath"
 
 	"github.com/casbin/casbin/v2"
-	project_root_directory "github.com/golang-infrastructure/go-project-root-directory"
+	projectRootDir "github.com/golang-infrastructure/go-project-root-directory"
 )
 
 func NewEnforcer() *casbin.Enforcer {
 	// Get the absolute path to the project directory
-	projectDir, err := project_root_directory.GetRootDirectory()
+	projectDir, err := projectRootDir.GetRootDirectory()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
