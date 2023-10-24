@@ -64,7 +64,7 @@ services:
     env_file:
       - $PWD/.env.stage
     volumes:
-      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile:ro
       - $PWD/docker/volumes/caddy/caddy_data:/data:rw
       - $PWD/docker/volumes/caddy/caddy_config:/config:rw
     depends_on:
