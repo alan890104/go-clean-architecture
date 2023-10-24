@@ -16,7 +16,6 @@ func NewEnforcer() *casbin.Enforcer {
 		log.Fatal(err.Error())
 	}
 
-	// Use filepath.Join to safely join paths
 	modelPath := filepath.Join(projectDir, "rbac", "model.conf")
 	policyPath := filepath.Join(projectDir, "rbac", "policy.csv")
 

@@ -10,13 +10,6 @@ import (
 )
 
 func NewTestEnforcer() *casbin.Enforcer {
-	// Get the absolute path to the project directory
-	// projectDir, err := project_root_directory.GetRootDirectory()
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-
-	// Use filepath.Join to safely join paths
 	modelPath := filepath.Join("model.conf")
 	policyPath := filepath.Join("policy.csv")
 
