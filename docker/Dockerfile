@@ -25,9 +25,5 @@ FROM busybox AS runtime
 # Copy the binary from the build stage to the runtime stage
 COPY --from=build /app/app /app
 
-# Copy the configuration files from the build stage to the runtime stage
-COPY --from=build /app/rbac/model.conf /rbac/model.conf
-COPY --from=build /app/rbac/policy.csv /rbac/policy.csv
-
 # Set the entry point to execute the binary directly
 ENTRYPOINT ["/app"]

@@ -34,6 +34,8 @@ services:
       - GIN_MODE=release
     env_file:
       - $PWD/.env.stage
+    volumes:
+      - $PWD/rbac:/rbac:ro
     depends_on:
       db:
         condition: service_healthy
