@@ -10,6 +10,8 @@ import (
 	"time"
 	_ "time/tzdata"
 
+	"github.com/alan890104/go-clean-arch-demo/rbac"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -17,10 +19,11 @@ import (
 type AppOpts func(app *Application)
 
 type Application struct {
-	Env     *Env
-	Conn    *gorm.DB
-	Engine  *gin.Engine
-	UseMock bool
+	Env      *Env
+	Conn     *gorm.DB
+	Engine   *gin.Engine
+	Enforcer *casbin.Enforcer
+	UseMock  bool
 }
 
 func WithUseMock(useMock bool) AppOpts {
@@ -33,6 +36,7 @@ func App(opts ...AppOpts) *Application {
 	env := NewEnv()
 	db := NewDB(env)
 	engine := gin.Default()
+	enforcer := rbac.NewEnforcer()
 
 	// Set timezone
 	tz, err := time.LoadLocation(env.Server.TimeZone)
@@ -42,9 +46,10 @@ func App(opts ...AppOpts) *Application {
 	time.Local = tz
 
 	app := &Application{
-		Env:    env,
-		Conn:   db,
-		Engine: engine,
+		Env:      env,
+		Conn:     db,
+		Engine:   engine,
+		Enforcer: enforcer,
 	}
 
 	for _, opt := range opts {

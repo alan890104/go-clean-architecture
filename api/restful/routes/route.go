@@ -14,17 +14,17 @@ func RegisterRoutes(app *bootstrap.Application, bookUsecase domain.BookUsecase, 
 
 	// Register Book Routes
 	bookController := controller.NewBookController(bookUsecase, recordUsecase)
-	RegisterBookRoutes(app.Engine, bookController)
+	RegisterBookRoutes(app, bookController)
 
 	// Register Record Routes
 	recordController := controller.NewRecordController(recordUsecase)
-	RegisterRecordRoutes(app.Engine, recordController)
+	RegisterRecordRoutes(app, recordController)
 
 	// Register Login Routes
 	loginController := controller.NewLoginController(loginUsecase, app.Env)
-	RegisterLoginRoutes(app.Engine, loginController)
+	RegisterLoginRoutes(app, loginController)
 
 	// Register Signup Routes
 	signupController := controller.NewSignupController(signupUsecase)
-	RegisterSignupRoutes(app.Engine, signupController)
+	RegisterSignupRoutes(app, signupController)
 }

@@ -12,6 +12,7 @@ type User struct {
 	Email    string `json:"email" gorm:"type:varchar(255);unique"`
 	Name     string `json:"name" gorm:"type:varchar(255)"`
 	Password string `json:"password" gorm:"type:varchar(255)"`
+	Role     string `json:"role" gorm:"type:varchar(255)"`
 }
 
 func (u *User) BeforeCreate(*gorm.DB) error {
