@@ -35,7 +35,8 @@ services:
     env_file:
       - $PWD/.env.stage
     volumes:
-      - $PWD/rbac:/rbac:ro
+      - $PWD/rbac/model.conf:/rbac/model.conf:ro
+      - $PWD/rbac/policy.csv:/rbac/policy.csv:ro
     depends_on:
       db:
         condition: service_healthy
