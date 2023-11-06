@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -65,13 +66,43 @@ func (app *Application) Run() {
 		Addr:    fmt.Sprintf(":%d", app.Env.Server.Port),
 		Handler: app.Engine,
 	}
-	ch := make(chan os.Signal, 1)
+
+	// Create a channel to listen for errors coming from the listener. Use a buffered channel so the goroutine can exit if we don't collect this error.
+	serverErrors := make(chan error, 1)
+
+	// Start the server in a goroutine so that it doesn't block.
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatal(err)
-		}
+		log.Printf("Server is running on port %d", app.Env.Server.Port)
+		serverErrors <- srv.ListenAndServe()
 	}()
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
-	<-ch
-	log.Println("Gracefully shutting down...")
+
+	// Create a channel to listen for an interrupt or terminate signal from the OS.
+	// Use a buffered channel because the signal package requires it.
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+
+	// Block until we receive our signal.
+	select {
+	case err := <-serverErrors:
+		log.Fatalf("Error starting server: %v", err)
+
+	case <-shutdown:
+		log.Println("Starting graceful shutdown...")
+
+		// Create a deadline to wait for.
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+
+		// Doesn't block if no connections, but will otherwise wait
+		// until the timeout deadline.
+		err := srv.Shutdown(ctx)
+		if err != nil {
+			// If we encounter an error during shutdown, log it and then try to close the server.
+			log.Printf("Could not stop server gracefully: %v", err)
+			if closeErr := srv.Close(); closeErr != nil {
+				// If the server couldn't close, log it as a fatal error.
+				log.Fatalf("Could not close http server: %v", closeErr)
+			}
+		}
+	}
 }
