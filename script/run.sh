@@ -14,10 +14,14 @@ function export_env() {
     local mode=$1
     local env_file=".env"
 
-    # Check if mode is provided, then set the env_file
-    if [ -n "$mode" ]; then
+    # Check if mode is provided and the corresponding file exists, then set the env_file
+    if [ -n "$mode" ] && [ -f ".env.${mode}" ]; then
         env_file=".env.${mode}"
+    elif [ ! -f "$env_file" ]; then
+        echo "Error: Default .env file not found."
+        return 1
     fi
+
 
     unamestr=$(uname)
     if [ "$unamestr" = 'Linux' ]; then
